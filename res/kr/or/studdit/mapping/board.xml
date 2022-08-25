@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="board">
+
+  <sql id="dynamicCondition">
+   <dynamic prepend=" where ">
+       <isNotEmpty property="area"  prepend=" and ">
+          <isNotEmpty property="sword">
+                  $area$ = #sword#
+          </isNotEmpty>
+       </isNotEmpty>
+       <isNotEmpty property="tit"  prepend=" and ">
+          <isNotEmpty property="ssearch">
+                  $tit$  like '%'||#ssearch#||'%'
+          </isNotEmpty>
+       </isNotEmpty>
+       <isNotEmpty property="cst"  prepend=" and ">
+        	str_cst = #cst#
+       </isNotEmpty>
+		<isNotEmpty property="name"  prepend=" and ">
+        	bor_name = #name#
+       </isNotEmpty>
+   </dynamic>
+  </sql>
+  
+<!--     <sql id="searchDynamic">
+   <dynamic prepend=" where ">
+       <isNotEmpty property="tit"  prepend=" and ">
+          <isNotEmpty property="ssearch">
+                  $stype$  like '%'||#ssearch#||'%'
+          </isNotEmpty>
+       </isNotEmpty>
+   </dynamic>
+  </sql> -->
+
+  <select id="selectByPage" resultClass="boardVo" parameterClass="map">
+       
+	     select A.* from 
+		     (select rownum as rnum , B.* from
+		         ( select bo.*, st.std_nname, sr.str_cst from board bo
+                    inner join student st
+                    on bo.std_id = st.std_id
+                    inner join studyroom sr
+                    on sr.bor_code = bo.bor_code
+					<include refid="dynamicCondition"/> 
+		            order by bo.bor_code desc ) B 
+	    <![CDATA[
+		      where rownum <= #end#
+				 order by rnum asc) A
+		  where A.rnum >= #start# 
+	  ]]>            
+	             
+   </select>
+   
+  <select id="selectByHelp" resultClass="boardVo" parameterClass="map">
+       
+	     select A.* from 
+		     (select rownum as rnum , B.* from
+		         ( select bo.*, st.std_nname from board bo
+                    inner join student st
+                    on bo.std_id = st.std_id
+					<include refid="dynamicCondition"/> 
+		            order by bo.bor_code desc ) B 
+	    <![CDATA[
+		      where rownum <= #end#
+				 order by rnum asc) A
+		  where A.rnum >= #start# 
+	  ]]>            
+	             
+   </select>
+ 
+   <select id="totalCount" parameterClass="map" resultClass="int">
+      select count(*) from board bo inner join studyroom sr on sr.bor_code = bo.bor_code
+         <include refid="dynamicCondition"/>
+   </select>
+   
+   <select id="helpCount" parameterClass="map" resultClass="int">
+   		select count(*) from board bo
+   		<include refid="dynamicCondition"/>
+   </select>
+   
+   <select id="selectBoard" parameterClass="string" resultClass="boardVo">
+   		select bo.*, st.std_nname from board bo inner join student st 
+		on bo.std_id = st.std_id where bor_code = #bor_code#
+   </select>
+ 
+	<insert id="insertComment" parameterClass="commentVo">
+		insert into comments (cmt_code, cmt_con, cmt_rpd, cmt_rvd, cmt_cho, cmt_pcc, std_id, bor_code) 
+		values(seq_comment.nextval, #cmt_con#, sysdate, sysdate, #cmt_cho#, #cmt_pcc#, #std_id#, #bor_code#)
+	</insert>
+
+	<select id="boardComment" parameterClass="string" resultClass="commentVo">
+		select * from comments where bor_code = #bor_code# order by cmt_code asc
+	</select>
+	
+	<delete id="deleteComment" parameterClass="string">
+		delete from comments where cmt_code = #cmt_code#
+	</delete>
+
+	<update id="updateComment" parameterClass="map">
+		update comments
+		set cmt_con = #cmt_con#, cmt_rvd = sysdate
+		where cmt_code = #cmt_code#
+	</update>
+	
+	<!-- 무곤이 공간 -->
+
+	<select id="getAllStudyMainBoard" resultClass ="studyMainBoardVo">
+		SELECT B.BOR_CODE, B.BOR_AREA, B.BOR_TIT, B.BOR_CON, B.STD_ID, S.STR_CST
+		FROM   BOARD B
+		INNER JOIN STUDYROOM S
+		ON (B.BOR_CODE = S.BOR_CODE
+		AND B.STD_ID = S.STD_ID)
+		WHERE B.BOR_NAME = '스터디'
+	</select>
+	
+	<select id="getJavaStudyMainBoard" resultClass ="studyMainBoardVo">
+		SELECT B.BOR_CODE, B.BOR_AREA, B.BOR_TIT, B.BOR_CON, B.STD_ID, S.STR_CST
+		FROM   BOARD B
+		INNER JOIN STUDYROOM S
+		ON (B.BOR_CODE = S.BOR_CODE
+		AND B.STD_ID = S.STD_ID)
+		WHERE B.BOR_NAME = '스터디' 
+		AND B.BOR_AREA ='JAVA'
+	</select>
+	<select id="getDBStudyMainBoard" resultClass ="studyMainBoardVo">
+		SELECT B.BOR_CODE, B.BOR_AREA, B.BOR_TIT, B.BOR_CON, B.STD_ID, S.STR_CST
+		FROM   BOARD B
+		INNER JOIN STUDYROOM S
+		ON (B.BOR_CODE = S.BOR_CODE
+		AND B.STD_ID = S.STD_ID)
+		WHERE B.BOR_NAME = '스터디' 
+		AND B.BOR_AREA ='DATABASE'
+	</select>
+	<select id="getJSPStudyMainBoard" resultClass ="studyMainBoardVo">
+		SELECT B.BOR_CODE, B.BOR_AREA, B.BOR_TIT, B.BOR_CON, B.STD_ID, S.STR_CST
+		FROM   BOARD B
+		INNER JOIN STUDYROOM S
+		ON (B.BOR_CODE = S.BOR_CODE
+		AND B.STD_ID = S.STD_ID)
+		WHERE B.BOR_NAME = '스터디' 
+		AND B.BOR_AREA ='JSP'
+	</select>
+	<select id="getPYStudyMainBoard" resultClass ="studyMainBoardVo">
+		SELECT B.BOR_CODE, B.BOR_AREA, B.BOR_TIT, B.BOR_CON, B.STD_ID, S.STR_CST
+		FROM   BOARD B
+		INNER JOIN STUDYROOM S
+		ON (B.BOR_CODE = S.BOR_CODE
+		AND B.STD_ID = S.STD_ID)
+		WHERE B.BOR_NAME = '스터디' 
+		AND B.BOR_AREA ='PYTHON'
+	</select>
+	<select id="getHTMLStudyMainBoard" resultClass ="studyMainBoardVo">
+		SELECT B.BOR_CODE, B.BOR_AREA, B.BOR_TIT, B.BOR_CON, B.STD_ID, S.STR_CST
+		FROM   BOARD B
+		INNER JOIN STUDYROOM S
+		ON (B.BOR_CODE = S.BOR_CODE
+		AND B.STD_ID = S.STD_ID)
+		WHERE B.BOR_NAME = '스터디' 
+		AND B.BOR_AREA like '%HTML%'
+	</select>
+	<select id="getSpringStudyMainBoard" resultClass ="studyMainBoardVo">
+		SELECT B.BOR_CODE, B.BOR_AREA, B.BOR_TIT, B.BOR_CON, B.STD_ID, S.STR_CST
+		FROM   BOARD B
+		INNER JOIN STUDYROOM S
+		ON (B.BOR_CODE = S.BOR_CODE
+		AND B.STD_ID = S.STD_ID)
+		WHERE B.BOR_NAME = '스터디' 
+		AND B.BOR_AREA like 'SPRING'
+	</select>
+	
+	<insert id="insertToBoard" parameterClass = "InsertBoardVo">
+		INSERT INTO BOARD(BOR_CODE, BOR_NAME, BOR_TIT, BOR_CON, BOR_RPD, BOR_RVD, BOR_HIT, BOR_DCR, STD_ID, BOR_AREA)
+		VALUES(#bor_code#, #bor_name#, #bor_tit#, #bor_con#, sysdate, sysdate, 0, 0, #std_id#, #bor_area#)
+	</insert>
+	
+	<select id="getAllBoardVo" resultClass="InsertBoardVo">
+		SELECT * FROM BOARD
+	</select>
+	
+	
+	<insert id ="insertToStudyBoard" parameterClass ="InsertBoardVo">
+		INSERT INTO STUDYROOM(BOR_CODE, STD_ID, STR_CST)
+		VALUES(#bor_code#,#std_id#, '모집')
+		
+	</insert> 
+		
+	<!-- 무곤이 공간 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<update id="updateHit" parameterClass="string">
+		update board
+		set bor_hit = bor_hit + 1
+		where bor_code = #bor_code#
+	</update>
+	
+	<select id="getStudyMember" parameterClass="string" resultClass="recruitVo">
+		select st.std_nname, st.std_tier, st.std_id 
+		from student st inner join studymember sm 
+		on st.std_id = sm.std_id 
+		where bor_code = #bor_code#
+		and sm.stm_chk = 0 
+	</select>
+	
+	<update id="giveStudyMileage" parameterClass="recruitVo">
+		update student
+		set std_mil = std_mil + 100
+		where std_id = #std_id#
+	</update>
+	
+	<insert id="insertStudyMember" parameterClass="map">
+		insert into studymember (stm_chk, stm_day, std_id, bor_code)
+		values (0, sysdate, #std_id#, #bor_code#)
+	</insert>
+	
+	<delete id="deleteStudyMember" parameterClass="map">
+		delete from studymember where std_id = #std_id# and bor_code = #bor_code#
+	</delete>
+	
+	<select id="getStudyList" parameterClass="map" resultClass="boardVo">
+		select bo.* from board bo 
+		inner join studymember sm on bo.bor_code = sm.bor_code 
+		inner join studyroom sr on bo.bor_code = sr.bor_code 
+		where sm.std_id = #std_id#
+		and sr.str_cst = #str_cst#
+		and sm.stm_chk = 0
+	</select>
+	
+	<select id="getStudyMemberCount" parameterClass="string" resultClass="int">
+		select count(*) from studymember where bor_code = #bor_code#
+	</select>
+	
+	<insert id="insertAct" parameterClass="actVo">
+		insert into studyact (act_code, act_tit, act_con, bor_code, act_date)
+		values (act_seq.nextval, #act_tit#, #act_con#, #bor_code#, sysdate)
+	</insert>
+	
+	<insert id="actStudyMember" parameterClass="map">
+		insert into studymember (stm_chk, stm_day, std_id, bor_code, act_code)
+		values (1, sysdate, #std_id#, #bor_code#, #act_code#)
+	</insert>
+	
+	<select id="getActCode" parameterClass="string" resultClass="string">
+		select a.act_code from (select act_code from studyact where bor_code = #bor_code# order by act_date desc)a where rownum = 1
+	</select>
+	
+	<select id="getActList" parameterClass="string" resultClass="actVo">
+		select * from studyact where bor_code = #bor_code#	
+	</select>
+	
+	<select id="getActMember" parameterClass="string" resultClass="actMemberVo">
+		select std_id from studymember where act_code = #act_code# and stm_chk = 1
+	</select>
+	
+	<update id="updateStudyState" parameterClass="studyRoomVo">
+		update studyroom
+		set str_cst = #str_cst#
+		where bor_code = #bor_code#
+	</update>
+	
+	<select id="getChoiceComment" parameterClass="string" resultClass="commentVo">
+		select * from comments where cmt_cho = 1 and bor_code = #bor_code# 
+	</select>
+	
+	<update id="updateChoice" parameterClass="string">
+		update comments
+		set cmt_cho = 1
+		where cmt_code = #cmt_code#
+	</update>
+	
+	<update id="giveChoiceMile" parameterClass="string">
+		update student
+		set std_mil = std_mil + 40
+		where std_id = #std_id#
+	</update>
+	
+	<select id="getChoiceStd" parameterClass="string" resultClass="string">
+		select std_id from comments where cmt_code = #cmt_code#
+	</select>
+	
+	<select id="getRank" resultClass="rankVo">
+		select rownum ro,std_nname, std_mil from (select * from student 
+		order by std_mil desc)
+		<![CDATA[
+			where rownum < 20
+	  	]]> 
+	</select>
+	
+	<delete id="deleteBoard" parameterClass="string">
+		delete from board where bor_code = #bor_code#
+	</delete>
+	
+	<update id="updateTier" parameterClass="profileVo">
+		update student
+		set std_tier = #std_tier#
+		where std_id = #std_id#
+	</update>
+	
+</sqlMap>	

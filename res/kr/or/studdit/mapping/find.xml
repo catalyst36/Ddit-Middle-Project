@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<!-- ID찾기 -LWG- -->
+<sqlMap namespace="find">
+	<select id="findId" parameterClass="satisVo" resultClass="String">
+		select std_id from satis a inner join student b on a.sat_num = b.sat_num
+		where sat_name = #sat_name# and sat_mail = #sat_mail#
+	</select>
+
+<!-- PASSWORD찾기 -LWG- -->	
+	<select id="findPass" parameterClass="map" resultClass="String">
+		select std_pass from satis a inner join student b on a.sat_num = b.sat_num
+		where sat_name = #sat_name# and std_id = #std_id# and sat_mail = #sat_mail#
+	</select>
+</sqlMap>

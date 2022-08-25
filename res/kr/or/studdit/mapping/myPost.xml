@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+   
+ <sqlMap namespace="post">
+ 
+ <select id="myAllPost" parameterClass="String" resultClass="boardVo">
+ 	select * from board where std_id=#std_id# and bor_name!='스터디'
+ </select>
+ 
+ 
+ <select id="myAllComment" parameterClass="String" resultClass="commentVo">
+ 	select * from comments
+ 	where std_id=#std_id#
+ </select>
+ 
+
+ 
+ </sqlMap>

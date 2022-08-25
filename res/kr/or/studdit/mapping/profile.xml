@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<!-- 로그인 -->   
+<sqlMap namespace="profile">
+	<select id="myProfile" parameterClass="string" resultClass="profileVo">
+		select sat_name, sat_tel, sat_mail, sat_cla, std_mil, std_tier, std_id, std_pass, std_nname, sat_phot
+		from student st inner join satis sa on st.sat_num = sa.sat_num
+		where std_id = #std_id#
+	</select>
+</sqlMap>

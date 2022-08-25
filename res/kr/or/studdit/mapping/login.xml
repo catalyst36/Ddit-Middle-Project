@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<!-- 로그인 -->   
+<sqlMap namespace="login">
+	<select id="studentLogin" parameterClass="studentVo" resultClass="studentVo">
+		select * from student where std_id = #std_id#
+		and std_pass = #std_pass#
+	</select>
+	
+	
+	
+
+</sqlMap>

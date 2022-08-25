@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<!-- 관리자 satis정보 -LWG- -->   
+<sqlMap namespace="admin">
+	<select id = "adminSatis" resultClass = "satisVo">
+		select * from satis
+	</select>
+
+<!-- 관리자 Student정보 -LWG- -->	
+	<select id = "adminStudent" resultClass = "studentVo">
+		select * from student
+	</select>
+
+<!-- 관리자 회원 삭제 -LWG- -->	
+	<delete id = "adminDelete" parameterClass = "String">
+		delete from student where std_id = #std_id#
+	</delete>
+	
+	
+</sqlMap>

@@ -1,0 +1,301 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+*{
+	font-family: 'Jua', sans-serif;
+}
+
+body{
+	background-color: #FBF8EF;
+}
+
+#main_wrapper{
+	width: 1130px;
+	background-color: white;
+	margin: 0 auto;
+}
+
+#container {
+   position: relative;
+   width: 1130px;
+   height: 850px;
+   padding: 20px 30px;
+   margin: 0 auto;
+   letter-spacing: -.2px;
+   
+   border : 1px solid;
+   border-color: #ECE9E7;
+}
+
+.column_left {
+   float: left;
+   width: 78%;
+   height: 100%;
+}
+
+.column_right {
+   float: right;
+   width: 20%;
+   height: 100%;
+}
+
+
+#NM_INT_LEFT {
+   background-color: white;
+   overflow: auto;
+}
+
+/* 스크롤바 설정*/
+#NM_INT_LEFT::-webkit-scrollbar{
+    width:5px;
+    border-radius: 25px;
+}
+
+/* 스크롤바 막대 설정*/
+#NM_INT_LEFT::-webkit-scrollbar-thumb{
+    background-color: #C1C0C0;
+    border-radius: 25px;
+}
+
+/* 스크롤바 뒷 배경 설정*/
+#NM_INT_LEFT::-webkit-scrollbar-track{
+    background-color: #E6E6E6;
+}
+
+#NM_INT_RIGHT {
+	border: 1px solid #ECE9E7;
+}
+
+#user_info{
+	padding-right: 10px;
+	padding-left:10px;
+	height: 200px;
+}
+
+#foot{
+ 	width: 1130px;
+	height: 50px;
+	background-color: #F7BE81;
+	margin:0 auto;
+		border-radius: 8px;	
+	height: 100px;
+	padding-top:25px;
+}
+
+.footer-title{
+	text-align: center;
+}
+
+.main_nav{
+	height:100%;
+}
+
+.main_section{
+	height:100%;
+}
+
+.studdit_main_logo{
+	width: 120px;
+	
+	margin: 50px 0;
+}
+
+.studdit_nav_logo{
+	display:block;
+	width: 100px;
+	margin: 50px auto;
+	
+}
+
+#study_inner_nav, #help_inner_nav{
+	margin : 0;
+	padding : 0;
+}
+
+
+
+li{
+	font-size: 0.76em;
+	list-style-type: none;
+}
+
+.list-group-item{
+	font-weight: bold;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.board-table {
+  font-size: 13px;
+  width: 100%;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.board-table a {
+  color: #333;
+  display: inline-block;
+  line-height: 1.4;
+  word-break: break-all;
+  vertical-align: middle;
+}
+.board-table a:hover {
+  text-decoration: underline;
+}
+.board-table th {
+  text-align: center;
+}
+
+.board-table .th-num {
+  width: 100px;
+  text-align: center;
+}
+
+.board-table .th-date {
+  width: 200px;
+}
+
+.board-table th, .board-table td {
+  padding: 14px 0;
+}
+
+.board-table tbody td {
+  border-top: 1px solid #e7e7e7;
+  text-align: center;
+}
+
+.board-table tbody th {
+  padding-left: 28px;
+  padding-right: 14px;
+  border-top: 1px solid #e7e7e7;
+  text-align: left;
+}
+
+.board-table tbody th p{
+  display: none;
+}
+
+.profile-wrapper{
+	display: flex;
+	justify-content: space-between;
+	margin-bottom:7px;
+}
+
+.profile-content{
+	width: 105px;
+}
+
+.profile-img-wrapper{
+	width: 80px;
+	height: 80px;
+	border-radius: 50px;
+	overflow: hidden;
+}
+
+.profile-img{
+	width: 80px;
+	height: 80px;
+}
+
+.content-title{
+	border: 1px solid #e7e7e7;
+	border-radius: 8px;
+	padding: 8px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.content-title-right{
+	display:flex;
+	justify-content: space-between;
+	width: 150px;	
+}
+
+.content-content{
+	border: 1px solid #e7e7e7;
+	border-radius: 8px;
+	padding: 8px;
+}
+	
+.content-footer{
+	border: 1px solid #e7e7e7;
+	border-radius: 8px;
+	padding: 8px;
+}
+
+#newBoard{
+	float: right;	
+	margin-right:20px;
+}
+
+.main-content{
+	width : 100%;
+	height: 350px;
+	border-bottom : 1px solid #e7e7e7;
+	padding-top:50px;
+	text-align: center;
+}
+
+.main-ddit{
+	height: 350px;
+}
+
+.main-study{
+	height: 400px;
+}
+
+.ddit-logo{
+	width: 150px;
+	margin: 0px auto;	
+}
+
+.ddit-content p{
+	margin-top:50px;
+	text-align: center;
+	line-height: 2.2;
+}
+
+.ddit-content h3{
+	margin-top:30px;	
+}
+
+.team-logo{
+	width: 100px;
+}
+
+.help-logo{
+	width: 100px;
+}
+
+.main-help{
+	height: 400px;
+}
+
+.button-wrapper{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.content-content{
+	height: 400px;
+}
+
+.admin-button{
+	width : 200px;
+	height : 50px;
+}
+
+#btn-send{
+	float: right;
+	margin : 20px;
+	
+}
+
+#test{
+	margin-top: 20px;
+}

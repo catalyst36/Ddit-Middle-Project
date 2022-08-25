@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<!-- 학생 회원가입 -LWG- -->   
+<sqlMap namespace="signup">
+	<insert id="insertStudent" parameterClass="studentVo">
+		insert into student(sat_num, std_id, std_nname, std_pass, std_pow, std_tier) 
+		values(#sat_num#, #std_id#, #std_nname#, #std_pass#, 1, '브론즈')
+	</insert>
+<!-- 고유번호 검색 -LWG-  -->	
+	<select id="searchSatNum" parameterClass="String" resultClass="String">
+		select sat_num from satis where sat_mail = #sat_mail#
+	</select>
+<!-- 아이디 이메일 중복확인 -LWG- -->
+	<select id="checkId" parameterClass="map" resultClass="String">
+		select std_id from student a inner join satis b on a.sat_num = b.sat_num
+		where std_id = #std_id# or sat_mail = #sat_mail#
+	</select>
+<!-- 회원정보 수정update -->
+	 <update id="updateMyInfo" parameterClass="profileVo">
+		update STUDENT
+		set std_pass=#std_pass#,std_nname=#std_nname#
+		where std_id=#std_id#
+	</update> 
+</sqlMap>

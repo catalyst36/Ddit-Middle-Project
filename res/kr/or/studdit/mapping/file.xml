@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="file">
+	
+	
+	<select id="getFile" parameterClass="String" resultClass="String">
+	    select sat_phot
+	    from student
+	    where std_id=#std_id#
+	</select>
+	
+	<update id="upProfile" parameterClass="studentVo">
+		update student
+		set sat_phot=#sat_phot#
+		where std_id=#std_id#
+	</update>
+	
+	
+	<update id="delProfile" parameterClass="string" >
+		update student
+		set sat_phot=null
+		where std_id=#std_id#
+	</update>
+
+	
+
+</sqlMap>
